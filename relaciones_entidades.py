@@ -16,7 +16,7 @@ def agregar_producto_bodega(bodega, producto):
     else:
         print("La bodega está llena.")
 
-#definción de la clase producto Bodega
+#definción de la clase producto Bodega 3
 
 def retirar_producto_bodega(bodega, producto, cantidad):
     if producto in bodega.productos_almacenados:
