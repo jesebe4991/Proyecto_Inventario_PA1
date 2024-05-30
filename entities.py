@@ -12,6 +12,7 @@ class Categoria:
         self.descripcion = descripcion
         self.productos = []
 
+#Creacion de la clase proveedor
 class Proveedor:
     def __init__(self, nombre, direccion, telefono, productos_suministrados=[]):
         self.nombre = nombre
