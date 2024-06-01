@@ -1,33 +1,91 @@
 import tkinter as tk
 from tkinter import ttk
+from categoria import Categoria
+from producto import Producto
+from proveedor import Proveedor
+from bodega import Bodega
+
+# Inicializar listas para las entidades
+categorias = []
+productos = []
+proveedores = []
+bodegas = []
+
+# Crear una bodega por defecto
+bodega_central = Bodega("Bodega Central", "Carrera 15 # 70-80", 1000)
+bodegas.append(bodega_central)
 
 def agregar_producto():
-    # Código para agregar un nuevo producto
-    pass
+    nombre = input_producto.get()
+    categoria_nombre = input_categoria.get()
+    stock = int(input_stock.get())
+    # Busca la categoría
+    categoria = next((c for c in categorias if c.nombre == categoria_nombre), None)
+    if categoria:
+        producto = Producto(nombre, "", 0, stock, categoria)  # Descripción y precio por defecto
+        productos.append(producto)
+        bodega_central.agregar_producto(producto)
+        actualizar_tabla()
+    else:
+        print("Categoría no encontrada")
 
 def eliminar_producto():
-    # Código para eliminar un producto
-    pass
+    nombre = input_producto.get()
+    producto = next((p for p in productos if p.nombre == nombre), None)
+    if producto:
+        productos.remove(producto)
+        bodega_central.retirar_producto(producto)
+        actualizar_tabla()
+    else:
+        print("Producto no encontrado")
 
 def agregar_categoria():
-    # Código para agregar una nueva categoría
-    pass
+    nombre = input_categoria.get()
+    categoria = Categoria(nombre, "")
+    categorias.append(categoria)
+    actualizar_tabla()
 
 def eliminar_categoria():
-    # Código para eliminar una categoría
-    pass
+    nombre = input_categoria.get()
+    categoria = next((c for c in categorias if c.nombre == nombre), None)
+    if categoria:
+        categorias.remove(categoria)
+        actualizar_tabla()
+    else:
+        print("Categoría no encontrada")
 
 def agregar_stock():
-    # Código para agregar stock
-    pass
+    nombre = input_producto.get()
+    stock = int(input_stock.get())
+    producto = next((p for p in productos if p.nombre == nombre), None)
+    if producto:
+        producto.stok_inicial += stock
+        actualizar_tabla()
+    else:
+        print("Producto no encontrado")
 
 def eliminar_stock():
-    # Código para eliminar stock
-    pass
+    nombre = input_producto.get()
+    stock = int(input_stock.get())
+    producto = next((p for p in productos if p.nombre == nombre), None)
+    if producto:
+        if producto.stok_inicial >= stock:
+            producto.stok_inicial -= stock
+        else:
+            print("No hay suficiente stock para eliminar")
+        actualizar_tabla()
+    else:
+        print("Producto no encontrado")
+
+def actualizar_tabla():
+    for row in tabla.get_children():
+        tabla.delete(row)
+    for producto in productos:
+        tabla.insert("", tk.END, values=(producto.nombre, producto.categoria.nombre, producto.stok_inicial, "Proveedor"))
 
 root = tk.Tk()
 root.title("SOP INVENTARIOS")
-root.minsize(width=600, height=400)
+root.minsize(width=700, height=400)
 
 # Sección de Tabla Informativa
 tabla_frame = tk.Frame(root)
@@ -37,11 +95,6 @@ columnas = ["Producto", "Categoría", "Stock", "Proveedor"]
 tabla = ttk.Treeview(tabla_frame, columns=columnas, show="headings")
 for columna in columnas:
     tabla.heading(columna, text=columna)
-
-# Ejemplo de inserción de datos
-tabla.insert("", tk.END, values=("Nevera", "Electrodomésticos", 10, "Proveedor 1"))
-tabla.insert("", tk.END, values=("Smartphone", "Tecnología", 20, "Proveedor 2"))
-tabla.insert("", tk.END, values=("Mesa", "Muebles", 15, "Proveedor 3"))
 
 tabla.pack()
 
