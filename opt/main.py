@@ -33,5 +33,3 @@ if bodega_central.consultar_disponibilidad(producto_tv):
 else:
     print(f"El producto {producto_tv.nombre} no está disponible en la bodega central")
 
-# Calcular valor del stock
-valor_stock_bodega_
