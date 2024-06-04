@@ -1,8 +1,7 @@
 class Categoria:
-    # def __init__(self, nombre, descripcion):
-    def __init__(self, nombre):
+    def __init__(self, nombre, descripcion):
         self.nombre = nombre
-        # self.descripcion = descripcion
+        self.descripcion = descripcion
 
     def agregar_producto(self, producto):
         self.productos.append(producto)
