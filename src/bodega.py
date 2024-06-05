@@ -5,9 +5,9 @@ class Bodega:
         self.capacidad_max = capacidad_max
         self.productos_almacenados = []
 
-    def agregar_producto(self, producto):
+    def agregar_producto(self, producto, stock):
         if len(self.productos_almacenados) < self.capacidad_max:
-            self.productos_almacenados.append(producto)
+            self.productos_almacenados.append((producto, stock))
         else:
             print("La bodega está llena")
 
@@ -28,3 +28,13 @@ class Bodega:
         for producto in self.productos_almacenados:
             valor_total += producto.precio * producto.stok_inicial
         return valor_total
+    
+    def eliminar_producto(self, producto):
+        print(self.productos_almacenados)
+        for i, tupla in enumerate(self.productos_almacenados):
+            if tupla[0] == producto: 
+                del self.productos_almacenados[i]
+                print(f"Producto {producto.nombre} eliminado de la bodega.")
+                break 
+        else:
+            print("El producto no está en la bodega.")

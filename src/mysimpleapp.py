@@ -29,10 +29,15 @@ def actualizar_tabla_productos():
         tabla_productos.insert("", tk.END, values=(producto.nombre))
 
 def actualizar_tabla_principal():
+    categoria_nombre = input_categoria.get()
     for row in tabla.get_children():
         tabla.delete(row)
-    for producto in bodega_central.productos_almacenados:
-        tabla.insert("", tk.END, values=(producto.nombre, producto.categoria.nombre, producto.stock, "Proveedor"))
+    for producto_tupla in bodega_central.productos_almacenados:
+        producto, stock = producto_tupla 
+        if producto is None:
+            print("Producto no encontrado")
+            continue  
+        tabla.insert("", tk.END, values=(producto.nombre, categoria_nombre, stock, "Proveedor"))
 
 # Funciones para botones
 def agregar_categoria():
@@ -105,10 +110,14 @@ def eliminar_registro():
     if selected_item:
         item = tabla.item(selected_item)
         producto_nombre = item['values'][0]
-        producto = next((p for p in bodega_central.productos_almacenados if p.nombre == producto_nombre), None)
-        if producto:
+
+        producto_tupla = next((p for p in bodega_central.productos_almacenados if p[0].nombre == producto_nombre), None)
+        if producto_tupla:
+            producto = producto_tupla[0]
             bodega_central.eliminar_producto(producto)
             actualizar_tabla_principal()
+        else:
+            print("Producto no encontrado en la bodega central.")
 
 def seleccionar_categoria(event):
     selected_item = tabla_categorias.selection()[0]
