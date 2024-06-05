@@ -83,6 +83,7 @@ def agregar_stock():
     producto_nombre = input_producto.get()
     stock = int(input_stock.get())
     producto = next((p for p in productos if p.nombre == producto_nombre), None)
+    print(producto)
     if producto:
         producto.stock += stock
         actualizar_tabla_principal()
